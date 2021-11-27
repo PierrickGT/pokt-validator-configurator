@@ -1,15 +1,15 @@
-##  Instructions for loading an existing wallet from a secure json keyfile  
+##  Instructions for loading an existing wallet from a secure json keyfile
 ##  and using that address to stake a validator on Pocket’s Mainnet.
 
 
 ###                     PREREQUISITES AND ASSUMPTIONS:
-These instructions continue from: https://github.com/BenVanGithub/pokt-validator-configurator/blob/master/README.md   
-Please be sure you have completed those steps before continuing here. 
+These instructions continue from: https://github.com/PierrickGT/pokt-validator-configurator/blob/master/README.md
+Please be sure you have completed those steps before continuing here.
 
 
 
 ## Step 6 Create Validator
-6.1) ![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+) pocket accounts list 
+6.1) ![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+) pocket accounts list
 ```diff
 - you should see only one account, the one that you created in step 5.1
 ```
@@ -21,20 +21,20 @@ Please be sure you have completed those steps before continuing here.
 ## Step 7 Create chains.json (describes what blockchains you will serve and how)
 7.1) ![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+) vi .pocket/config/chains.json
 ```diff
-- insert the text below:  
-- Change xxx.xxx.xxx.xxx for the IPs of the full nodes which will provide relays 
+- insert the text below:
+- Change xxx.xxx.xxx.xxx for the IPs of the full nodes which will provide relays
 ```
 ```
-[  
+[
   {
-    "id": "0001",  
-    "url": "http://xxx.xxx.xxx.xxx:8081"  
-  },  
-  {  
-    "id": "0021",  
-    "url": "http://xxx.xxx.xxx.xxx:8545"  
-  }  
-]  
+    "id": "0001",
+    "url": "http://xxx.xxx.xxx.xxx:8081"
+  },
+  {
+    "id": "0021",
+    "url": "http://xxx.xxx.xxx.xxx:8545"
+  }
+]
 ```
 ## Step 8 Test your ability to send relays
 ```diff
@@ -44,18 +44,18 @@ Please be sure you have completed those steps before continuing here.
 
 8.2)  Ethereum Relay Test:
 ```diff
--  (replace "yourDomain.com" with the URL of your Pocket Validator Node)  
+-  (replace "yourDomain.com" with the URL of your Pocket Validator Node)
 -  (replace "xxx.xxx.xxx.xxx:port" with the IP of an Ethereum Full Node that will accept RPCs)  [[8545 = geth default port]]
-``` 
+```
 ![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+) ```curl -X POST --data '{"relay_network_id":"0021","payload":{"data":"{\"jsonrpc\":\"2.0\",\"method\":\"eth_getBalance\",\"params\":[\"0xe7a24E61b2ec77d3663ec785d1110688d2A32ecc\", \"latest\"],\"id\":1}","method":"POST","path":"","headers":{}}}' https://yourDomain.com:port/v1/client/sim ```
 ``` diff
 + produces  {"jsonrpc": "2.0", "id": 1, "result": "0x0"}   if successful
 ```
 8.3) Pocket Relay Test
 ```diff
--  (replace "yourDomain.com:port" with the URL of your Pocket Validator Node [[port 8081 or 443]])  
+-  (replace "yourDomain.com:port" with the URL of your Pocket Validator Node [[port 8081 or 443]])
 -  (replae "xxx.xxx.xxx.xxx:port" with the IP of a Pocket Full Node that will accept RPCs) [[ 8081=self? 8082 other? ]]
-``` 
+```
 ![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+) ```curl --insecure -X POST --data '{"relay_network_id":"0001","payload":{"data":"{}","method":"POST","path":"v1/query/nodes","headers":{}}}' https://yourDomain.com:port/v1/client/sim ```
 ``` diff
 + produces a massive wall of text if successful
@@ -64,16 +64,16 @@ Please be sure you have completed those steps before continuing here.
 
 ## Step 9 - Load Wallet and Import Key
 
-You have two options:  
-1.)  copy it up using an FTP program such as filezilla.  
-2.)  Create it on the server using “vi” and copy/paste the contents from your local device. 
+You have two options:
+1.)  copy it up using an FTP program such as filezilla.
+2.)  Create it on the server using “vi” and copy/paste the contents from your local device.
 ```diff
-- This document will assume you are using option 2.  
+- This document will assume you are using option 2.
 - If you have already copied up the file using another method, skip to 9.2
 ```
-9.1) ![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+) vi .pocket/config/keyfile.json  
-![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+)9.1.1) Open the secure keyfile on your PC with any text editor and copy the entire contents of that file.  
-![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+)9.1.2) Paste those contents into the keyfile.json which you are currently editing on the server.  
+9.1) ![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+) vi .pocket/config/keyfile.json
+![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+)9.1.1) Open the secure keyfile on your PC with any text editor and copy the entire contents of that file.
+![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+)9.1.2) Paste those contents into the keyfile.json which you are currently editing on the server.
 ![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+)9.1.3) save the file.
 ```diff
 @@ NOTE: we are using the path .pocket/config for convenience and consistency…  @@
@@ -86,7 +86,7 @@ You have two options:
 !<<EnterYourPassphrase>>
 +passphrase
 !<<EnterYourPassphrase>> again
-+ Account imported successfully [LongStringOfLettersAndNumbers] 
++ Account imported successfully [LongStringOfLettersAndNumbers]
 - This is your Validator-Address to be used below and for future refrence
 ```
 ## Step 10 Set the Validator address and Restart the node
@@ -113,9 +113,9 @@ You have two options:
 !<<EnterYourPassphrase>>
 - successfull output looks similar to:
 +     "raw_log": "[{\"msg_index\":0,\"success\":true,\"log\":\"\",\"events\":
-+  [{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"stake_validator\"}]}]}]", 
++  [{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"stake_validator\"}]}]}]",
 +    "txhash": "C1F1283D7E9098FC4D95F2CCFAE5547789ACB87E404BB3BF0AC56E6C721E3E77"}
--  The staking transaction will not take effect until a block has been added... 
+-  The staking transaction will not take effect until a block has been added...
 -  wait, up to 15 minutes.
 -  confirm staking was successfull with:
 !  pocket query node < validator address >
@@ -128,10 +128,10 @@ You have two options:
 - change "<validator address>" to the actual Validator address from 10.1
 ```
 12.1 )![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+) pocket nodes unjail < validator address > mainnet 10000
- ```diff 
+ ```diff
 + passphrase
 ! enter passphrase
-  
+
 - may fail [code: 4 ] don’t panic.. try again go to 12.1
 - may take several attempts (6 is my personal record :-)  /
 - Not sure if this is a timing error or network instability.
@@ -150,7 +150,7 @@ You have two options:
 + "jailed": false,
 ```
 ## Step 13  Happy and Joy... We Be Validating!.. Let's clean up a bit.
-let’s remove the secure keyfile that we created or uploaded earlier… 
+let’s remove the secure keyfile that we created or uploaded earlier…
 No point in leaving it there (it’s encrypted but still, better safe than sorry)
 13.1) ![#1589F0](https://via.placeholder.com/15/FFC000/000000?text=+) rm .pocket/config/keyfile.json
 (( no output ))
