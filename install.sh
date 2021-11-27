@@ -20,28 +20,12 @@ fi
 
 echo Seeds to be used: $SEEDS
 
-read -p 'Use RC-0.6.3.6? n=use Beta-0.5.2.9 (Y/n): ' RC6_YN
-RC6_YN=${RC6_YN^^}
-if [[ "$RC6_YN" == "N" ]]; then
-    echo "Sorry, Using RC-0.6.3.6 anyway... only stable version right now"
-    RC6_YN="N"
-else
-    echo "Using RC-0.6.3.6"
-    RC6_YN="Y"
-fi
-
-
-
 g install 1.13
 go get -u github.com/pokt-network/pocket-core
-sudo apt-get update -y 
+sudo apt-get update -y
 sudo apt-get install libleveldb-dev build-essential -y
 cd ~/go/src/github.com/pokt-network/pocket-core
-if [[ "$RC6_YN" == "N" ]]; then
-   git checkout tags/RC-0.6.3.6
-else
-   git checkout tags/RC-0.6.3.6
-fi
+git checkout tags/RC-0.6.4
 
 echo $GOPATH
 
@@ -59,7 +43,7 @@ sudo go build -o $GOPATH/bin/pocket ./app/cmd/pocket_core/main.go
 sleep 2
 if [[ "$M_T_NETWORK" == "M" ]]; then
    pocket start --mainnet #creates config.json
-else 
+else
    pocket start --testnet #creates config.json
 fi
 PID=$(pgrep -f "pocket start")
